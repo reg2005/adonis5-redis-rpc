@@ -6,11 +6,15 @@
 Simple RPC Provider for Adonis 5, based on Redis pub/sub transport
 
 ## Installation
+Setup redis from [this manual](https://docs.adonisjs.com/guides/redis)
+
+and
 
 ```bash
 npm i adonis5-redis-rpc
 node ace invoke adonis5-redis-rpc
 ```
+
 
 ## Usage
 
