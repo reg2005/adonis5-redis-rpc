@@ -1,0 +1,93 @@
+{
+  "name": "adonis5-redis-rpc",
+  "version": "1.0.3",
+  "description": "Simple RPC Provider for Adonis 5, based on Redis pub/sub transport",
+  "main": "build/index.js",
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "node japaFile.ts",
+    "mrm": "mrm --preset=@adonisjs/mrm-preset",
+    "clean": "del build",
+    "compile": "npm run lint && npm run clean && tsc",
+    "build": "npm run compile",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . --ext=.ts",
+    "format": "prettier --write .",
+    "commit": "git-cz",
+    "release": "np",
+    "version": "npm run build",
+    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json reg2005/adonis5-redis-rpc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reg2005/adonis5-redis-rpc.git"
+  },
+  "keywords": [
+    "Adonis",
+    "Adonis5",
+    "Redis",
+    "Redis",
+    "RPC",
+    "RPC"
+  ],
+  "author": "Evgeniy Ryumin (cmp08@ya.ru)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reg2005/adonis5-redis-rpc/issues"
+  },
+  "homepage": "https://github.com/reg2005/adonis5-redis-rpc#readme",
+  "devDependencies": {
+    "@adonisjs/mrm-preset": "^4.1.0",
+    "@adonisjs/require-ts": "^2.0.5",
+    "@types/node": "^15.12.2",
+    "@types/uuid": "^8.3.0",
+    "adonis-provider-tester": "git://github.com/VladyslavParashchenko/adonis-provider-tester.git#main",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "del-cli": "^4.0.0",
+    "doctoc": "^2.0.1",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-adonis": "^1.3.2",
+    "eslint-plugin-prettier": "^3.4.0",
+    "github-label-sync": "^2.0.1",
+    "husky": "^6.0.0",
+    "japa": "^3.1.1",
+    "mrm": "^3.0.2",
+    "np": "^7.5.0",
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "@adonisjs/events": "^7.0.1",
+    "@adonisjs/redis": "^7.0.4",
+    "debug": "^4.3.1",
+    "serialize-error": "^8.1.0",
+    "uuid": "^8.3.2"
+  },
+  "types": "build/adonis-typings/index.d.ts",
+  "typings": "build/adonis-typings/index.d.ts",
+  "files": [
+    "build/src",
+    "build/index.d.ts",
+    "build/index.js",
+    "build/adonis-typings",
+    "build/src",
+    "build/providers"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "np": {
+    "contents": ".",
+    "anyBranch": false
+  },
+  "adonisjs": {
+    "types": "adonis5-redis-rpc",
+    "providers": [
+      "adonis5-redis-rpc"
+    ]
+  }
+}
