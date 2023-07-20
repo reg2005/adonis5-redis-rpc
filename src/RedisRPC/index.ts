@@ -9,7 +9,7 @@ const clientDebug = require('debug')('adonis:addons:RedisRPC')
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export class RedisRPC {
-  constructor(private redis: typeof Redis, protected event: typeof Event) { }
+  constructor(private redis: typeof Redis, protected event: typeof Event) {}
   public timeout = 5000
   public clientId = v4()
   private handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
@@ -53,9 +53,9 @@ export class RedisRPC {
   public call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
     const uuid = v4()
 
-    let [service, method] = methodName.split('.');
+    let [service, method] = methodName.split('.')
 
-    if (!service) throw new Error('Service name is required');
+    if (!service) throw new Error('Service name is required')
 
     let unsubscribe: EmitterContract | null = null
     const promise = Promise.race([

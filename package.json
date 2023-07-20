@@ -1,6 +1,6 @@
 {
   "name": "adonis5-redis-rpc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple RPC Provider for Adonis 5, based on Redis pub/sub transport",
   "main": "build/index.js",
   "scripts": {
@@ -16,11 +16,11 @@
     "commit": "git-cz",
     "release": "np",
     "version": "npm run build",
-    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json reg2005/adonis5-redis-rpc"
+    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json hsharma1996/adonis5-redis-rpc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reg2005/adonis5-redis-rpc.git"
+    "url": "git@github.com:hsharma1996/adonis5-redis-rpc.git"
   },
   "keywords": [
     "Adonis",
@@ -30,12 +30,12 @@
     "RPC",
     "RPC"
   ],
-  "author": "Evgeniy Ryumin (cmp08@ya.ru)",
+  "author": "Craftnotion",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/reg2005/adonis5-redis-rpc/issues"
+    "url": "https://github.com/hsharma1996/adonis5-redis-rpc.git/issues"
   },
-  "homepage": "https://github.com/reg2005/adonis5-redis-rpc#readme",
+  "homepage": "https://github.com/hsharma1996/adonis5-redis-rpc.git#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^4.1.0",
     "@adonisjs/require-ts": "^2.0.5",
