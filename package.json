@@ -1,6 +1,6 @@
 {
-  "name": "adonis5-redis-rpc",
-  "version": "1.0.4",
+  "name": "@craftnotion/adonis5-redis-rpc",
+  "version": "1.0.3",
   "description": "Simple RPC Provider for Adonis 5, based on Redis pub/sub transport",
   "main": "build/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hsharma1996/adonis5-redis-rpc.git"
+    "url": "git+ssh://git@github.com/hsharma1996/adonis5-redis-rpc.git"
   },
   "keywords": [
     "Adonis",
@@ -89,5 +89,8 @@
     "providers": [
       "adonis5-redis-rpc"
     ]
+  },
+  "directories": {
+    "test": "test"
   }
 }
