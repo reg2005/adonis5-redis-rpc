@@ -9,12 +9,12 @@ const clientDebug = require('debug')('adonis:addons:RedisRPC')
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export class RedisRPC {
-  constructor(private redis: typeof Redis, protected event: typeof Event) {}
+  constructor(private redis: typeof Redis, protected event: typeof Event) { }
   public timeout = 5000
   public clientId = v4()
   private handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
-  public server() {
-    this.redis.subscribe(`rpc:MAIN:request`, async (message: string) => {
+  public server(serverName: string) {
+    this.redis.subscribe(`rpc:MAIN:request:${serverName}`, async (message: string) => {
       const parsedMessage: RPCMessageRequest = JSON.parse(message)
       serverDebug('parsedMessage', parsedMessage)
       let result: any = null
@@ -53,6 +53,10 @@ export class RedisRPC {
   public call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
     const uuid = v4()
 
+    let [service, method] = methodName.split('.');
+
+    if (!service) throw new Error('Service name is required');
+
     let unsubscribe: EmitterContract | null = null
     const promise = Promise.race([
       new Promise<T>((resolve, reject) => {
@@ -72,9 +76,9 @@ export class RedisRPC {
     ]).finally(unsubscribe)
 
     this.redis.publish(
-      'rpc:MAIN:request',
+      `rpc:MAIN:request:${service}`,
       JSON.stringify({
-        methodName,
+        methodName: method,
         params,
         uuid,
         clientId: this.clientId,
