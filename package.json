@@ -88,9 +88,9 @@
     "anyBranch": false
   },
   "adonisjs": {
-    "types": "adonis5-advance-redis-rpc",
+    "types": "@craftnotion/adonis5-advance-redis-rpc",
     "providers": [
-      "adonis5-advance-redis-rpc"
+      "@craftnotion/adonis5-advance-redis-rpc"
     ]
   },
   "directories": {
