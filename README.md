@@ -1,9 +1,9 @@
-# adonis5-redis-rpc
+# @craftnotion/adonis5-advance-redis-rpc
 > Adonis, Adonis 5, Redis RPC
 
 [![npm-image]][npm-url] [![license-image]][license-url] [![typescript-image]][typescript-url]
 
-Simple RPC Provider for Adonis 5, based on Redis pub/sub transport
+Advance RPC Provider for Adonis 5, based on Redis pub/sub transport
 
 ## Installation
 Setup redis from [this manual](https://docs.adonisjs.com/guides/redis)
@@ -11,8 +11,8 @@ Setup redis from [this manual](https://docs.adonisjs.com/guides/redis)
 and
 
 ```bash
-npm i adonis5-redis-rpc
-node ace invoke adonis5-redis-rpc
+npm i @craftnotion/adonis5-advance-redis-rpc
+node ace invoke @craftnotion/adonis5-advance-redis-rpc
 ```
 
 
@@ -71,10 +71,10 @@ Route.get('example', () => {
 })
 ```
 
-[npm-image]: https://img.shields.io/npm/v/adonis5-redis-rpc.svg?style=for-the-badge&logo=npm
-[npm-url]: https://npmjs.org/package/adonis5-redis-rpc "npm"
+[npm-image]: https://img.shields.io/npm/v/@craftnotion/adonis5-advance-redis-rpc.svg?style=for-the-badge&logo=npm
+[npm-url]: https://www.npmjs.com/package/@craftnotion/adonis5-advance-redis-rpc "npm"
 
-[license-image]: https://img.shields.io/npm/l/adonis5-redis-rpc?color=blueviolet&style=for-the-badge
+[license-image]: https://img.shields.io/npm/l/@craftnotion/adonis5-advance-redis-rpc?color=blueviolet&style=for-the-badge
 [license-url]: LICENSE.md "license"
 
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript

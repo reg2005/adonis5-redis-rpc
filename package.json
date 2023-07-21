@@ -1,6 +1,6 @@
 {
   "name": "@craftnotion/adonis5-advance-redis-rpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Advance RPC Provider for Adonis 5, based on Redis pub/sub transport",
   "main": "build/index.js",
   "scripts": {
