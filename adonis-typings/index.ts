@@ -14,7 +14,8 @@ declare module '@ioc:Adonis/Addons/RedisRPC' {
   export interface RedisRPCContract {
     timeout: number
     clientId: string
-    server(): Promise<void>
+    serverId: string
+    server(serviceId?: string): Promise<void>
     addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T): void
     removeHandler(methodName: string): void
     client(): Promise<void>

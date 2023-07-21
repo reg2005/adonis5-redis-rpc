@@ -9,31 +9,37 @@ const clientDebug = require('debug')('adonis:addons:RedisRPC')
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export class RedisRPC {
+  public serverId: string | undefined
   constructor(private redis: typeof Redis, protected event: typeof Event) {}
   public timeout = 5000
   public clientId = v4()
   private handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
-  public server(serverName: string) {
-    this.redis.subscribe(`rpc:MAIN:request:${serverName}`, async (message: string) => {
-      const parsedMessage: RPCMessageRequest = JSON.parse(message)
-      serverDebug('parsedMessage', parsedMessage)
-      let result: any = null
-      let error = false
-      try {
-        result = await this.handlers[parsedMessage.methodName](parsedMessage.params)
-      } catch (e) {
-        serverDebug(`RPC server method ${parsedMessage.methodName} error`, e)
-        error = serializeError(e)
+  public server(serverId?: string) {
+    this.serverId = serverId
+
+    this.redis.subscribe(
+      `rpc:MAIN:request${this.serverId ? `:${this.serverId}` : ''}`,
+      async (message: string) => {
+        const parsedMessage: RPCMessageRequest = JSON.parse(message)
+        serverDebug('parsedMessage', parsedMessage)
+        let result: any = null
+        let error = false
+        try {
+          result = await this.handlers[parsedMessage.methodName](parsedMessage.params)
+        } catch (e) {
+          serverDebug(`RPC server method ${parsedMessage.methodName} error`, e)
+          error = serializeError(e)
+        }
+        await this.redis.publish(
+          `rpc:MAIN:client:${parsedMessage.clientId}`,
+          JSON.stringify({
+            ...parsedMessage,
+            error,
+            result,
+          } as RPCMessageResponse)
+        )
       }
-      await this.redis.publish(
-        `rpc:MAIN:client:${parsedMessage.clientId}`,
-        JSON.stringify({
-          ...parsedMessage,
-          error,
-          result,
-        } as RPCMessageResponse)
-      )
-    })
+    )
     return sleep(100)
   }
   public addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T) {
@@ -53,9 +59,13 @@ export class RedisRPC {
   public call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
     const uuid = v4()
 
-    let [service, method] = methodName.split('.')
+    let serverId: string | undefined = methodName.split('.')[0]
+    let method = methodName.split('.')[1]
 
-    if (!service) throw new Error('Service name is required')
+    if (!method) {
+      method = serverId
+      serverId = undefined
+    }
 
     let unsubscribe: EmitterContract | null = null
     const promise = Promise.race([
@@ -76,7 +86,7 @@ export class RedisRPC {
     ]).finally(unsubscribe)
 
     this.redis.publish(
-      `rpc:MAIN:request:${service}`,
+      `rpc:MAIN:request${serverId ? `:${serverId}` : ''}`,
       JSON.stringify({
         methodName: method,
         params,
