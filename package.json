@@ -18,6 +18,9 @@
     "version": "npm run build",
     "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json hsharma1996/adonis5-redis-rpc"
   },
+  "publishConfig": {
+    "@shus_himanshu:registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/hsharma1996/adonis5-redis-rpc.git"
