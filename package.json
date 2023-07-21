@@ -1,7 +1,7 @@
 {
-  "name": "@craftnotion/adonis5-redis-rpc",
-  "version": "1.0.3",
-  "description": "Simple RPC Provider for Adonis 5, based on Redis pub/sub transport",
+  "name": "@craftnotion/adonis5-advance-redis-rpc",
+  "version": "1.0.0",
+  "description": "Advance RPC Provider for Adonis 5, based on Redis pub/sub transport",
   "main": "build/index.js",
   "scripts": {
     "pretest": "npm run lint",
@@ -16,14 +16,14 @@
     "commit": "git-cz",
     "release": "np",
     "version": "npm run build",
-    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json hsharma1996/adonis5-redis-rpc"
+    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json craftnotion/adonis5-advance-redis-rpc"
   },
   "publishConfig": {
     "@shus_himanshu:registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/hsharma1996/adonis5-redis-rpc.git"
+    "url": "git+ssh://git@github.com/craftnotion/adonis5-advance-redis-rpc.git"
   },
   "keywords": [
     "Adonis",
@@ -36,9 +36,9 @@
   "author": "Craftnotion",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hsharma1996/adonis5-redis-rpc.git/issues"
+    "url": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git/issues"
   },
-  "homepage": "https://github.com/hsharma1996/adonis5-redis-rpc.git#readme",
+  "homepage": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git#readme",
   "devDependencies": {
     "@adonisjs/mrm-preset": "^4.1.0",
     "@adonisjs/require-ts": "^2.0.5",
@@ -88,9 +88,9 @@
     "anyBranch": false
   },
   "adonisjs": {
-    "types": "adonis5-redis-rpc",
+    "types": "adonis5-advance-redis-rpc",
     "providers": [
-      "adonis5-redis-rpc"
+      "adonis5-advance-redis-rpc"
     ]
   },
   "directories": {
