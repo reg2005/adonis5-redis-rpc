@@ -1,33 +1,41 @@
-import Redis from '@ioc:Adonis/Addons/Redis'
-import { RPCMessageRequest, RPCMessageResponse } from '@ioc:Adonis/Addons/RedisRPC'
-import Event, { EmitterContract } from '@ioc:Adonis/Core/Event'
-import { serializeError, deserializeError } from 'serialize-error'
-
+import adonisjsRedis from '@adonisjs/redis/services/main'
 import { v4 } from 'uuid'
-const serverDebug = require('debug')('adonis:addons:RedisRPC')
-const clientDebug = require('debug')('adonis:addons:RedisRPC')
+import type { Logger } from '@adonisjs/core/logger'
+import { Emitter } from '@adonisjs/core/events'
+import { type UnsubscribeFunction } from 'emittery'
+import { serializeError, deserializeError } from 'serialize-error'
+import {
+  RPCMessageRequest,
+  RPCMessageResponse,
+  RedisRPCContract,
+  RedisRPCEvents,
+} from '../types.js'
+
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export class RedisRPC {
-  public serverId: string | undefined
-  constructor(private redis: typeof Redis, protected event: typeof Event) {}
-  public timeout = 5000
-  public clientId = v4()
-  private handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
-  public server(serverId?: string) {
+export class RedisRPC implements RedisRPCContract {
+  constructor(
+    private redis: typeof adonisjsRedis,
+    protected event: Emitter<RedisRPCEvents>,
+    private logger: Logger
+  ) {}
+  #timeout = 5000
+  clientId = v4()
+  serverId: string | null = null
+  #handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
+  async server(serverId: string | null = null) {
     this.serverId = serverId
 
     this.redis.subscribe(
       `rpc:MAIN:request${this.serverId ? `:${this.serverId}` : ''}`,
       async (message: string) => {
         const parsedMessage: RPCMessageRequest = JSON.parse(message)
-        serverDebug('parsedMessage', parsedMessage)
         let result: any = null
         let error = false
         try {
-          result = await this.handlers[parsedMessage.methodName](parsedMessage.params)
+          result = await this.#handlers[parsedMessage.methodName](parsedMessage.params)
         } catch (e) {
-          serverDebug(`RPC server method ${parsedMessage.methodName} error`, e)
+          this.logger.error(e, `RPC server method ${parsedMessage.methodName} error`)
           error = serializeError(e)
         }
         await this.redis.publish(
@@ -40,23 +48,21 @@ export class RedisRPC {
         )
       }
     )
-    return sleep(100)
   }
-  public addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T) {
-    this.handlers[methodName] = cb
+  addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T) {
+    this.#handlers[methodName] = cb
   }
-  public removeHandler(methodName: string) {
-    delete this.handlers[methodName]
+  removeHandler(methodName: string) {
+    delete this.#handlers[methodName]
   }
-  public client() {
+  async client() {
     this.redis.subscribe(`rpc:MAIN:client:${this.clientId}`, (message) => {
       const parsedMessage: RPCMessageResponse = JSON.parse(message)
-      clientDebug('parsedMessage', parsedMessage)
+      // clientDebug('parsedMessage', parsedMessage)
       this.event.emit(`rpc:response:${parsedMessage.uuid}`, parsedMessage)
     })
-    return sleep(100)
   }
-  public call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
+  call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
     const uuid = v4()
 
     let serverId: string | undefined = methodName.split('.')[0]
@@ -67,20 +73,20 @@ export class RedisRPC {
       serverId = undefined
     }
 
-    let unsubscribe: EmitterContract | null = null
+    let unsubscribe: UnsubscribeFunction | null = null
     const promise = Promise.race([
       new Promise<T>((resolve, reject) => {
         unsubscribe = this.event.on(
           `rpc:response:${uuid}`,
           (message: { error: boolean; result: any }) => {
-            clientDebug('rpc response', message)
+            this.logger.error(message, 'rpc response')
             const { error, result } = message
             if (error) return reject(deserializeError(error))
             resolve(result)
           }
         )
       }),
-      sleep(options?.timeout || this.timeout).then(() => {
+      sleep(options?.timeout || this.#timeout).then(() => {
         throw new Error('RPC request timeout')
       }),
     ]).finally(unsubscribe)

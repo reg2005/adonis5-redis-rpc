@@ -1,3 +1,1 @@
-import RedisRPCProvider from './providers/RedisRPCProvider'
-
-export default RedisRPCProvider
+export { RedisRPCProvider } from './providers/redis_rpc_provider.js'

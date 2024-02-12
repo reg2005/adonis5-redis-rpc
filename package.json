@@ -1,29 +1,46 @@
 {
-  "name": "@craftnotion/adonis5-advance-redis-rpc",
-  "version": "1.0.1",
-  "description": "Advance RPC Provider for Adonis 5, based on Redis pub/sub transport",
-  "main": "build/index.js",
-  "scripts": {
-    "pretest": "npm run lint",
-    "test": "node japaFile.ts",
-    "mrm": "mrm --preset=@adonisjs/mrm-preset",
-    "clean": "del build",
-    "compile": "npm run lint && npm run clean && tsc",
-    "build": "npm run compile",
-    "prepublishOnly": "npm run build",
-    "lint": "eslint . --ext=.ts",
-    "format": "prettier --write .",
-    "commit": "git-cz",
-    "release": "np",
-    "version": "npm run build",
-    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json craftnotion/adonis5-advance-redis-rpc"
+  "name": "@craftnotion/adonisjs-advance-redis-rpc",
+  "version": "0.0.0",
+  "description": "Advance RPC Provider for Adonisjs, based on Redis pub/sub transport",
+  "engines": {
+    "node": ">=18.16.0"
   },
-  "publishConfig": {
-    "@shus_himanshu:registry": "https://npm.pkg.github.com"
+  "author": "Craftnotion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/craftnotion/adonis5-advance-redis-rpc.git"
+  },
+  "type": "module",
+  "files": [
+    "build/src",
+    "build/providers",
+    "build/stubs",
+    "build/index.d.ts",
+    "build/index.js"
+  ],
+  "exports": {
+    ".": "./build/index.js",
+    "./types": "./build/src/types.js"
+  },
+  "scripts": {
+    "clean": "del-cli build",
+    "copy:templates": "copyfiles \"stubs/**/*.stub\" build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext=.ts",
+    "format": "prettier --write .",
+    "quick:test": "node --import=./tsnode.esm.js --enable-source-maps bin/test.ts",
+    "pretest": "npm run lint",
+    "test": "c8 npm run quick:test",
+    "prebuild": "npm run lint && npm run clean",
+    "build": "tsc",
+    "postbuild": "npm run copy:templates",
+    "release": "np",
+    "version": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "Adonis",
@@ -33,67 +50,57 @@
     "RPC",
     "RPC"
   ],
-  "author": "Craftnotion",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git/issues"
-  },
-  "homepage": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git#readme",
   "devDependencies": {
-    "@adonisjs/mrm-preset": "^4.1.0",
-    "@adonisjs/require-ts": "^2.0.5",
-    "@types/node": "^15.12.2",
-    "@types/uuid": "^8.3.0",
-    "adonis-provider-tester": "git://github.com/VladyslavParashchenko/adonis-provider-tester.git#main",
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.3.0",
-    "del-cli": "^4.0.0",
-    "doctoc": "^2.0.1",
-    "eslint": "^7.28.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-adonis": "^1.3.2",
-    "eslint-plugin-prettier": "^3.4.0",
-    "github-label-sync": "^2.0.1",
-    "husky": "^6.0.0",
-    "japa": "^3.1.1",
-    "mrm": "^3.0.2",
-    "np": "^7.5.0",
-    "prettier": "^2.3.1",
-    "typescript": "^4.3.2"
+    "@adonisjs/assembler": "^7.0.0",
+    "@adonisjs/core": "^6.2.0",
+    "@adonisjs/eslint-config": "^1.2.1",
+    "@adonisjs/prettier-config": "^1.2.1",
+    "@adonisjs/redis": "^8.0.1",
+    "@adonisjs/tsconfig": "^1.2.1",
+    "@japa/assert": "^2.1.0",
+    "@japa/runner": "^3.1.1",
+    "@swc/core": "^1.3.102",
+    "@types/node": "^20.10.7",
+    "@types/uuid": "^9.0.8",
+    "c8": "^9.0.0",
+    "copyfiles": "^2.4.1",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.38.0",
+    "np": "^9.2.0",
+    "prettier": "^3.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
-  "dependencies": {
-    "@adonisjs/events": "^7.0.1",
-    "@adonisjs/redis": "^7.0.4",
-    "debug": "^4.3.1",
-    "serialize-error": "^8.1.0",
-    "uuid": "^8.3.2"
+  "peerDependencies": {
+    "@adonisjs/core": "^6.2.0",
+    "@adonisjs/redis": "^8.0.1"
   },
-  "types": "build/adonis-typings/index.d.ts",
-  "typings": "build/adonis-typings/index.d.ts",
-  "files": [
-    "build/src",
-    "build/index.d.ts",
-    "build/index.js",
-    "build/adonis-typings",
-    "build/src",
-    "build/providers"
-  ],
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
   },
   "np": {
-    "contents": ".",
+    "message": "chore(release): %s",
+    "tag": "latest",
+    "branch": "main",
     "anyBranch": false
   },
-  "adonisjs": {
-    "types": "@craftnotion/adonis5-advance-redis-rpc",
-    "providers": [
-      "@craftnotion/adonis5-advance-redis-rpc"
+  "c8": {
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**"
     ]
   },
-  "directories": {
-    "test": "test"
+  "eslintConfig": {
+    "extends": "@adonisjs/eslint-config/package"
+  },
+  "prettier": "@adonisjs/prettier-config",
+  "dependencies": {
+    "@poppinss/utils": "^6.7.2",
+    "serialize-error": "^11.0.3",
+    "uuid": "^9.0.1"
   }
 }
