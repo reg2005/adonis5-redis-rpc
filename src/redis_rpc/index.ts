@@ -4,6 +4,7 @@ import type { Logger } from '@adonisjs/core/logger'
 import { Emitter } from '@adonisjs/core/events'
 import { type UnsubscribeFunction } from 'emittery'
 import { serializeError, deserializeError } from 'serialize-error'
+import * as errors from '../errors.js'
 import {
   RPCMessageRequest,
   RPCMessageResponse,
@@ -25,7 +26,6 @@ export class RedisRPC implements RedisRPCContract {
   #handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
   async server(serverId: string | null = null) {
     this.serverId = serverId
-
     this.redis.subscribe(
       `rpc:MAIN:request${this.serverId ? `:${this.serverId}` : ''}`,
       async (message: string) => {
@@ -48,6 +48,7 @@ export class RedisRPC implements RedisRPCContract {
         )
       }
     )
+    sleep(100)
   }
   addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T) {
     this.#handlers[methodName] = cb
@@ -58,9 +59,9 @@ export class RedisRPC implements RedisRPCContract {
   async client() {
     this.redis.subscribe(`rpc:MAIN:client:${this.clientId}`, (message) => {
       const parsedMessage: RPCMessageResponse = JSON.parse(message)
-      // clientDebug('parsedMessage', parsedMessage)
       this.event.emit(`rpc:response:${parsedMessage.uuid}`, parsedMessage)
     })
+    await sleep(100)
   }
   call<T>(methodName: string, params: any = [], options?: { timeout: number }): Promise<T> {
     const uuid = v4()
@@ -87,7 +88,7 @@ export class RedisRPC implements RedisRPCContract {
         )
       }),
       sleep(options?.timeout || this.#timeout).then(() => {
-        throw new Error('RPC request timeout')
+        throw new errors.E_REQUEST_TIMEOUT([method])
       }),
     ]).finally(unsubscribe)
 

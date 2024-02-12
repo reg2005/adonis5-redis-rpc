@@ -12,14 +12,14 @@ declare module '@adonisjs/core/types' {
 /**
  * RedisRPC provider
  */
-export class RedisRPCProvider {
+export default class RedisRPCProvider {
   constructor(protected app: ApplicationService) {}
 
   register() {
     this.app.container.singleton('redisRPC', async () => {
-      const redis: typeof adonisjsRedis = await this.app.container.make('redis')
       const event = await this.app.container.make('emitter')
       const logger = await this.app.container.make('logger')
+      const redis: typeof adonisjsRedis = await this.app.container.make('redis')
       return new RedisRPC(redis, event as any, logger)
     })
   }
