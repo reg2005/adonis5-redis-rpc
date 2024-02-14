@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "description": "Advance RPC Provider for Adonisjs, based on Redis pub/sub transport",
   "engines": {
-    "node": ">=21"
+    "node": ">=18.16.0"
   },
   "author": "Craftnotion",
   "license": "MIT",
