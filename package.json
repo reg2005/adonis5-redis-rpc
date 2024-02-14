@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "description": "Advance RPC Provider for Adonisjs, based on Redis pub/sub transport",
   "engines": {
-    "node": ">=18.16.0"
+    "node": ">=21"
   },
   "author": "Craftnotion",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/craftnotion/adonis5-advance-redis-rpc.git/issues"
+    "url": "https://github.com/craftnotion/adonis-advance-redis-rpc.git/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/craftnotion/adonis5-advance-redis-rpc.git"
+    "url": "git+ssh://git@github.com/craftnotion/adonis-advance-redis-rpc.git"
   },
   "type": "module",
   "files": [
@@ -38,7 +38,7 @@
     "prebuild": "npm run lint && npm run clean",
     "build": "tsc",
     "postbuild": "npm run copy:templates",
-    "release": "np",
+    "release": "yarn format && yarn build && yarn test && yarn && np",
     "version": "npm run build",
     "prepublishOnly": "npm run build"
   },
@@ -79,13 +79,13 @@
   },
   "publishConfig": {
     "access": "public",
-    "tag": "latest"
+    "tag": "latest",
+    "registry": "https://registry.npmjs.org"
   },
   "np": {
     "message": "chore(release): %s",
     "tag": "latest",
-    "branch": "main",
-    "anyBranch": false
+    "anyBranch": true
   },
   "c8": {
     "reporter": [
@@ -102,6 +102,7 @@
   "prettier": "@adonisjs/prettier-config",
   "dependencies": {
     "@poppinss/utils": "^6.7.2",
+    "release": "^6.3.1",
     "serialize-error": "^11.0.3",
     "uuid": "^9.0.1"
   }
