@@ -1,11 +1,10 @@
-{{#var providersFileName = generators.providersFileName(entity.name)}}
 {{{
   exports({
-    to: app.providersPath(entity.path, providersFileName)
+    to: app.providersPath('redis_rpc.ts')
   })
 }}}
 
-import redisRPC from '@adonisjs/redisRPC'
+import redisRPC from '@craftnotion/adonisjs-advance-redis-rpc'
     /**
      * To create server, use `redisRPC.server("example")` method,
      * where `example` is the name of the server.
