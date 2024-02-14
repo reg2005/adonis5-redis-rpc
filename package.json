@@ -1,6 +1,6 @@
 {
   "name": "@craftnotion/adonisjs-advance-redis-rpc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Advance RPC Provider for Adonisjs, based on Redis pub/sub transport",
   "engines": {
     "node": ">=21"
