@@ -13,5 +13,20 @@
 */
 
 import ConfigureCommand from '@adonisjs/core/commands/configure'
+import { stubsRoot } from './stubs/main.js'
 
-export async function configure(_command: ConfigureCommand) {}
+export async function configure(command: ConfigureCommand) {
+    const codemods = await command.createCodemods()
+
+    /**
+     * Publish preload
+     */
+    await codemods.makeUsingStub(stubsRoot, 'preloader/redis_rpc.stub', {})
+
+    /**
+     * Add provider to rc file
+     */
+    await codemods.updateRcFile((rcFile) => {
+        rcFile.addPreloadFile('redis_rpc');
+    })
+}
