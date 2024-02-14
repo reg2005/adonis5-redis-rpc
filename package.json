@@ -16,27 +16,43 @@
   },
   "type": "module",
   "files": [
-    "build/src",
-    "build/providers",
-    "build/stubs",
-    "build/index.d.ts",
-    "build/index.js"
+    "build",
+    "!build/bin",
+    "!build/tests",
+    "!build/tests_helpers"
   ],
   "exports": {
     ".": "./build/index.js",
+    "./services/main": "./build/services/main.js",
+    "./redis_rpc_provider": "./build/providers/redis_rpc_provider.js",
     "./types": "./build/src/types.js"
+  },
+  "tsup": {
+    "entry": [
+      "./index.ts",
+      "./src/types.ts",
+      "./services/main.ts",
+      "./providers/redis_rpc_provider.ts"
+    ],
+    "outDir": "./build",
+    "clean": true,
+    "format": "esm",
+    "dts": false,
+    "sourcemap": true,
+    "target": "esnext"
   },
   "scripts": {
     "clean": "del-cli build",
     "copy:templates": "copyfiles \"stubs/**/*.stub\" build",
     "typecheck": "tsc --noEmit",
+    "compile": "tsup-node && tsc --emitDeclarationOnly --declaration",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "quick:test": "node --import=./tsnode.esm.js --enable-source-maps bin/test.ts",
     "pretest": "npm run lint",
     "test": "c8 npm run quick:test",
     "prebuild": "npm run lint && npm run clean",
-    "build": "tsc",
+    "build": "npm run compile",
     "postbuild": "npm run copy:templates",
     "release": "yarn format && yarn build && yarn test && yarn && np",
     "version": "npm run build",
