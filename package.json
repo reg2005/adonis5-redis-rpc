@@ -54,7 +54,7 @@
     "prebuild": "npm run lint && npm run clean",
     "build": "npm run compile",
     "postbuild": "npm run copy:templates",
-    "release": "npm run  format && npm run  build && npm run  test && npm i && np",
+    "release": "np",
     "version": "npm run build",
     "prepublishOnly": "npm run build"
   },
