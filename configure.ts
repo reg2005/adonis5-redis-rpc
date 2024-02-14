@@ -21,7 +21,7 @@ export async function configure(command: ConfigureCommand) {
   /**
    * Publish preload
    */
-  await codemods.makeUsingStub(stubsRoot, 'preloader/redis_rpc.stub', {})
+  await codemods.makeUsingStub(stubsRoot, 'start/redis_rpc.stub', {})
 
   /**
    * Add provider to rc file
