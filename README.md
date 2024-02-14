@@ -1,11 +1,10 @@
 # @craftnotion/adonis-advance-redis-rpc
+
 > Adonis, Adonisjs, Redis RPC
 
 [![npm-image]][npm-url] [![license-image]][license-url] [![typescript-image]][typescript-url]
 
-The `@craftnotion/adonis-advance-redis-rpc` package is a powerful RPC (Remote Procedure Call) provider designed specifically for AdonisJS  applications. It leverages Redis pub/sub transport for efficient communication between server and client instances. This package simplifies the implementation of distributed systems by enabling seamless communication between different parts of your application.
-
-
+The `@craftnotion/adonis-advance-redis-rpc` package is a powerful RPC (Remote Procedure Call) provider designed specifically for AdonisJS applications. It leverages Redis pub/sub transport for efficient communication between server and client instances. This package simplifies the implementation of distributed systems by enabling seamless communication between different parts of your application.
 
 ### Installation
 
@@ -35,7 +34,7 @@ import RedisRPC from '@ioc:Adonis/Addons/RedisRPC'
 
 async run(){
   await RedisRPC.server('example') // Create a server with name example
-  
+
   RedisRPC.addHandler('exampleMethod', async ({ data }) => {
     console.log(data);
   })
@@ -46,13 +45,14 @@ run();
 ```
 
 #### Client mode
+
 ```ts
 import Route from '@ioc:Adonis/Core/Route'
 import RedisRPC from '@ioc:Adonis/Addons/RedisRPC'
 
 Route.get('example', async () => {
   await RedisRPC.client()
-  const result = await RedisRPC.call('example.exampleMethod', { data: 'message' });
+  const result = await RedisRPC.call('example.exampleMethod', { data: 'message' })
   return result
 })
 ```
@@ -60,12 +60,8 @@ Route.get('example', async () => {
 Crafted with ❤️ by [Craftnotion](https://craftnotion.com)
 
 [npm-image]: https://img.shields.io/npm/v/@craftnotion/adonis-advance-redis-rpc.svg?style=for-the-badge&logo=npm
-[npm-url]: https://www.npmjs.com/package/@craftnotion/adonis-advance-redis-rpc "npm"
-
+[npm-url]: https://www.npmjs.com/package/@craftnotion/adonis-advance-redis-rpc 'npm'
 [license-image]: https://img.shields.io/npm/l/@craftnotion/adonis-advance-redis-rpc?color=blueviolet&style=for-the-badge
-[license-url]: LICENSE.md "license"
-
+[license-url]: LICENSE.md 'license'
 [typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
-[typescript-url]:  "typescript"
-
-
+[typescript-url]: "typescript"
