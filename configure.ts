@@ -29,4 +29,11 @@ export async function configure(command: ConfigureCommand) {
   await codemods.updateRcFile((rcFile) => {
     rcFile.addPreloadFile('redis_rpc')
   })
+
+  /**
+   * Add provider to rc file
+   */
+  await codemods.updateRcFile((rcFile) => {
+    rcFile.addProvider('@craftnotion/adonisjs-advance-redis-rpc')
+  })
 }

@@ -21,6 +21,7 @@
     "!build/tests",
     "!build/tests_helpers"
   ],
+  "main": "build/index.js",
   "exports": {
     ".": "./build/index.js",
     "./services/main": "./build/services/main.js",
