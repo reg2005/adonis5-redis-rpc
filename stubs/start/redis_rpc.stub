@@ -4,7 +4,7 @@
   })
 }}}
 
-import redisRPC from '@craftnotion/adonisjs-advance-redis-rpc'
+import redisRPC from '@craftnotion/adonisjs-advance-redis-rpc/services/main'
     /**
      * To create server, use redisRPC.server('example') method,
      * where 'example' is the name of the server.
@@ -15,6 +15,6 @@ import redisRPC from '@craftnotion/adonisjs-advance-redis-rpc'
      * }) 
      * method.
      */
-  async run() {
+  async function run() {
   }
-
+  run()

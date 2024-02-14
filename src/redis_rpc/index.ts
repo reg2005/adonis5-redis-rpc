@@ -21,7 +21,7 @@ export class RedisRPC implements RedisRPCContract {
     private logger: Logger
   ) {}
   #timeout = 5000
-  clientId = v4()
+  #clientId = v4()
   serverId: string | null = null
   #handlers: { [key: string]: (params: any) => Promise<any> | any } = {}
   async server(serverId: string | null = null) {
@@ -57,7 +57,7 @@ export class RedisRPC implements RedisRPCContract {
     delete this.#handlers[methodName]
   }
   async client() {
-    this.redis.subscribe(`rpc:MAIN:client:${this.clientId}`, (message) => {
+    this.redis.subscribe(`rpc:MAIN:client:${this.#clientId}`, (message) => {
       const parsedMessage: RPCMessageResponse = JSON.parse(message)
       this.event.emit(`rpc:response:${parsedMessage.uuid}`, parsedMessage)
     })
@@ -80,7 +80,6 @@ export class RedisRPC implements RedisRPCContract {
         unsubscribe = this.event.on(
           `rpc:response:${uuid}`,
           (message: { error: boolean; result: any }) => {
-            this.logger.error(message, 'rpc response')
             const { error, result } = message
             if (error) return reject(deserializeError(error))
             resolve(result)
@@ -98,7 +97,7 @@ export class RedisRPC implements RedisRPCContract {
         methodName: method,
         params,
         uuid,
-        clientId: this.clientId,
+        clientId: this.#clientId,
       } as RPCMessageRequest)
     )
 

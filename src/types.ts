@@ -13,7 +13,6 @@ export interface RPCMessageResponse {
   result: any
 }
 export interface RedisRPCContract {
-  clientId: string
   serverId: string | null
   server(serviceId?: string): Promise<void>
   addHandler<T>(methodName: string, cb: (data: any) => Promise<T> | T): void
