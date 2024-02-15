@@ -1,6 +1,6 @@
 # @craftnotion/adonisjs-advance-redis-rpc
 
-> Adonis, Adonisjs, Redis RPC, for Adonisjs V5, [Please check](https://github.com/Craftnotion/adonis-advance-redis-rpc/tree/v5)
+> Adonis, Adonisjs, Redis RPC, for Adonisjs V5, [Please follow](https://github.com/Craftnotion/adonis-advance-redis-rpc/tree/v5)
 
 [![npm-image]][npm-url] [![license-image]][license-url] [![typescript-image]][typescript-url]
 
